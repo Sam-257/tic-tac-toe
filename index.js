@@ -11,6 +11,7 @@ const WINNING_COMBINATIONS = [
 ];
 
 let xChance = true;
+let gameOver = false;
 let elements = [0,0,0,0,0,0,0,0,0];
 const gridElements = document.querySelectorAll('.gridElement');
 const xSpan = "<span class=\"x\">x</span>";
@@ -22,6 +23,7 @@ const startGame = () => {
   });
   elements = [0,0,0,0,0,0,0,0,0];
   xChance = true;
+  gameOver = false;
   $('chance').innerHTML = 'Chance : X' 
   $('resultText').innerHTML = '';
   $('modal').classList.remove('show-modal');
@@ -34,6 +36,7 @@ const checkWin = () => {
     if(elements[item[0]] === elements[item[1]] && elements[item[1]] === elements[item[2]] && (elements[item[1]] === 1 || elements[item[1]] === 2)) {
       $('modal').classList.add('show-modal');
       $('resultText').innerHTML = `${xChance ? 'x' : 'o'} Wins...`;
+      gameOver = true;
       return;
     }
   })
@@ -53,7 +56,7 @@ const elementClicked = (index) => {
   elements[id] = xChance ? 1 : 2;
   gridElements[id].innerHTML = xChance ? xSpan : oSpan;
   checkWin();
-  checkDraw();
+  if(!gameOver) checkDraw();
   xChance = !xChance;
   $('chance').innerHTML = `Chance : ${xChance ? 'X' : 'O'}` 
 }
